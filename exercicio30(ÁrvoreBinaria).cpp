@@ -212,7 +212,47 @@ struct ArvoreBinaria{
         }
         return true;
     }
+    void printar_nivel(Noh *raiz, int i){
+        em_ordem(raiz, 1,i);
+    }
+    int percorrer(Noh* raiz,int cont){
+        if(raiz == nullptr){
+            return cont;
+        }
+        else{
+            int a = percorrer(raiz->fesq,cont+1);
+            int b =percorrer(raiz->fdir,cont+1);
+            if(a>b){
+                return a;
+            }
+            else{
+                return b;
+            }
+        }
+    }
+    void printar_por_nivel(Noh* raiz){
+        int c =percorrer(raiz,0);
+        for(int i=1;i<=c;i+=1){
+            em_ordem(raiz,1,i);
+            cout << "\n";
+        }
+    }
+    void em_ordem(Noh* raiz, int cont, int i){
+        if(raiz == nullptr){
+            return;
+        }
+        else{
+            if(cont == i){
+                cout << raiz->elem;
+            }
+            else{
+                em_ordem(raiz->fesq,cont+1,i);
+                em_ordem(raiz->fdir,cont+1,i);
+            }
+        }
+    }
 };
+
 int main(){
     ArvoreBinaria<int> b;
     Sequencia<int> s;
@@ -225,12 +265,14 @@ int main(){
     b.procurar(12);
     s.inicializar_vetor();
     b.arvore_para_vetor(s);
-    s.print(); 
+    // s.print(); 
     cout << "\n";
-    s.limpar_vetor();
-    b.remover(10);
-    b.remover(15);
-    b.remover(25);
+    // s.limpar_vetor();
+    // b.remover(10);
+    // b.remover(15);
+    // b.remover(25);
     b.arvore_para_vetor(s);
-    s.print();
+    // s.print();
+    b.printar_nivel(b.raiz,5);
+    b.printar_por_nivel(b.raiz);
 }
